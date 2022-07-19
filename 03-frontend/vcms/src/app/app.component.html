@@ -4,23 +4,23 @@
     <aside class="menu-sidebar d-none d-lg-block">
         <div class="logo">
             <a href="home.html">
-                <img src="assets/images/logo.png" alt="luv2shop" class="img-responsive">
+                <img src="assets/images/logo2.png" alt="luv2shop" class="img-responsive">
             </a>
         </div>
         <div class="menu-sidebar-content js-scrollbar1">
             <nav class="navbar-sidebar">
                 <ul class="list-unstyled navbar-list">
                     <li>
-                        <a href="#">Books</a>
+                        <a routerLink="/category/1" routerLinkActive="active-link">Ana Yemekler</a>
                     </li>
                     <li>
-                        <a href="#">Coffee Mugs</a>
+                        <a routerLink="/category/2" routerLinkActive="active-link">Kahvaltılar</a>
                     </li>
                     <li>
-                        <a href="#">Mouse Pads</a>
+                        <a routerLink="/category/3" routerLinkActive="active-link">Tatlılar</a>
                     </li>
                     <li>
-                        <a href="#">Luggage Tags</a>
+                        <a routerLink="/category/4" routerLinkActive="active-link">İçecekler</a>
                     </li>
                 </ul>
             </nav>
@@ -57,8 +57,8 @@
 
 
         <!-- MAIN CONTENT-->
-        <app-product-list></app-product-list>
 
+        <router-outlet></router-outlet>
 
 
 
