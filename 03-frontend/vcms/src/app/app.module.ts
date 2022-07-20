@@ -14,7 +14,7 @@ import { SearchComponent } from './components/search/search.component';
 
 
 const routes: Routes = [
-  {path: 'search/:keyword', component: ProductListComponent}
+  {path: 'search/:keyword', component: ProductListComponent},
   {path: 'category/:id/:name', component: ProductListComponent},  // <!--Bu kısımı (/:name) kategori ismini dinamik bir şekilde almak için yazdım-->
   {path: 'category', component: ProductListComponent},
   {path: 'products', component: ProductListComponent},
