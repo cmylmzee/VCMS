@@ -2,7 +2,8 @@
     <div class="section-content section-content-p30">
         <div class="container-fluid">
             <div class="row">
-
+                <h4 class="text-center mb-4">{{ currentCategoryName }}</h4> <!--Bu kısımı kategori ismini dinamik bir şekilde almak için yazdım-->
+                <hr>
                 <!--- LOOPER OVER THE COLLECTION OF THE PRODUCTS -->
                 <div *ngFor="let tempProduct of products" class="col-md-3">
                     <div class="product-box">

@@ -12,6 +12,7 @@ export class ProductListComponent implements OnInit {
   products!: Product[];
   currentCateogryId!: number | null;
   a!: string | null;
+  currentCategoryName!: string | null; 
 
   constructor(private  productListService: ProductService,
     private route: ActivatedRoute) { }
@@ -33,9 +34,12 @@ export class ProductListComponent implements OnInit {
       this.a= this.route.snapshot.paramMap.get('id');
      
       this.currentCateogryId  = Number(this.a);
+      this.currentCategoryName = this.route.snapshot.paramMap.get('name'); // <!--Bu kısımı kategori ismini dinamik bir şekilde almak için yazdım-->
     }else{
       // no category id avaliable default the category id 1
        this.currentCateogryId = 1;
+       this.currentCategoryName = 'Ana Yemekler'; // <!--Bu kısımı kategori ismini dinamik bir şekilde almak için yazdım-->
+
     }
     
     // now get the products for the given category id
