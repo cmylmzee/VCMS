@@ -11,10 +11,10 @@
                         <a routerLink="/products/{{ tempProduct.id }}">
                             <img src="{{  tempProduct.imageUrl }}" class="img-responsive" alt="">
                         </a>
-                        
+
                         <a routerLink="/products/{{ tempProduct.id}}">
                             <h1>{{ tempProduct.name }}</h1>
-                        
+
                         </a>
                         <div class="price">{{ tempProduct.unitPrice | currency:'TRY'}} </div>
                         <a href="#" class="primary-btn">Sepete ekle</a>
@@ -26,6 +26,32 @@
                 <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12 text-center" role="alert"> No
                     products found.</div>
             </div>
+
+            <!-- BEGIN FOOTER -->
+            
+             <div class="footer-pagination">
+                <div class="row">
+                    <div class="col-md-6">
+                      
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-9 " style="padding-left: 30%;">
+                                <ngb-pagination [(page)]="thePageNumber"
+                                                [pageSize]="thePageSize"
+                                                [collectionSize]="theTotalElements"
+                                                (pageChange)="listProducts()">
+
+
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <!-- END FOOTER -->
+             
         </div>
     </div>
 </div>

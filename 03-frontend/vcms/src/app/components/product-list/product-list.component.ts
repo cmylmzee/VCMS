@@ -10,22 +10,33 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductListComponent implements OnInit {
   products!: Product[];
-  currentCateogryId!: number | null;
+  currentCateogryId: number =1;
+  previousCateogryId: number = 1;
+
   a!: string | null;
   currentCategoryName!: string | null; 
-  searchMode!: boolean;
+  searchMode: boolean = false;
+
+  // new properties for pagination
+  thePageNumber: number = 1;
+  thePageSize: number = 10;
+  theTotalElements: number = 0;
+
 
   constructor(private  productListService: ProductService,
     private route: ActivatedRoute) { }
-
   ngOnInit(): void {
+    debugger;
+
     this.route.paramMap.subscribe(() =>{
-      this.listProducts()
+      this.listProducts();
     });
     
   }
 
   listProducts() {
+    debugger;
+
     
     this.searchMode = this.route.snapshot.paramMap.has('keyword');
 
@@ -41,7 +52,25 @@ export class ProductListComponent implements OnInit {
 
   }
 
+ 
+  handleSearchProducts(){
+    debugger;
+
+    const theKeyword: string  | null = this.route.snapshot.paramMap.get('keyword');
+
+    // now search fot he products using keyword
+    this.productListService.searchProducts(theKeyword || '').subscribe(
+      data=>{
+        this.products = data;
+      }
+    )
+  }
+
+
+  
   handleListProducts(){
+    debugger;
+    
     // check if id parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
 
@@ -58,23 +87,43 @@ export class ProductListComponent implements OnInit {
        this.currentCategoryName = 'Ana Yemekler'; // <!--Bu kısımı kategori ismini dinamik bir şekilde almak için yazdım-->
 
     }
+
+    //
+    // Check if we have a different category than previous
+    // Note : Angular will reuse a component if it is currently being viewed
+    //
     
-    // now get the products for the given category id
-    this.productListService.getProductList(this.currentCateogryId).subscribe(
-      data => {
+    // if we have a different category id than previous
+    // then set thePageNumber back to 1
+    if(this.previousCateogryId != this.currentCateogryId){
+      this.thePageNumber = 1;
+    }
+     
+    this.previousCateogryId = this.currentCateogryId
+
+    console.log(`currentCategoryId=${this.currentCateogryId}, thePageNumber=${this.thePageNumber}`);
+
+    
+    //now get the products for the given category id
+    this.productListService.getProductListPaginate(this.thePageNumber -1 ,
+                                                   this.thePageSize,
+                                                   this.currentCateogryId).subscribe(this.processResult()); // BURADA DATA TUTULUYOR UNTUMA DİKKAT ET
+      
+
+   //this.productListService.getProductList(this.currentCateogryId).subscribe(
+   /*   data =>{
         this.products = data;
       }
-    )
+    )*/
   }
 
-  handleSearchProducts(){
-    const theKeyword: string  | null = this.route.snapshot.paramMap.get('keyword');
 
-    // now search fot he products using keyword
-    this.productListService.searchProducts(theKeyword || '').subscribe(
-      data=>{
-        this.products = data;
-      }
-    )
+  processResult() {
+    return (data: { _embedded: { products: Product[]; }; page: { number: number; size: number; totalElements: number; }; }) => {
+      this.products = data._embedded.products;
+      this.thePageNumber = data.page.number +1 ; // dikkat
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    }; 
   }
 }

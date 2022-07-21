@@ -1,9 +1,17 @@
 <div class="detail-section">
     <div class="container-fluid">
-       
-        <p style="margin-top: 100px;">product-details works!</p>
+
+        <img src="{{ product.imageUrl }}" class="detail-img " style="height: 450px;">
+
+        <h3>{{ product.name }}</h3>
+        <h5>{{ product.unitPrice | currency:'TRY'}}</h5>
+        <a href="" class="primary-btn">Sepete Ekle</a>
+
+        <hr>
+        <h4>Description</h4>
+        <p>{{ product.description }}</p>
+
+        <a routerLink="/products" class="mt-5">Ürünlere geri dön</a>
 
     </div>
 </div>
-
-
