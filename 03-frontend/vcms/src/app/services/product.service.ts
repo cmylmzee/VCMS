@@ -8,9 +8,9 @@ import { ProductCategory } from '../common/product-category';
   providedIn: 'root'
 })
 export class ProductService {
-  
-  
-  
+
+
+
 
   private baseUrl = 'http://localhost:8080/api/products'     // VARSAYILAN SİZE 20 20 öğe gösterir şimdi 100 olduğu için 100
   private categoryUrl = 'http://localhost:8080/api/product-category'
@@ -24,10 +24,10 @@ export class ProductService {
     return this.getProducts(searchUrl);
   }
 
-  getProductListPaginate(thePage: number, 
-                         thePageSize: number,
-                         theCategoryId: number): Observable<GetResponseProducts> {
-                          debugger;
+  getProductListPaginate(thePage: number,
+    thePageSize: number,
+    theCategoryId: number): Observable<GetResponseProducts> {
+    debugger;
     // need to build url based on category id
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}` + `&page=${thePage}&size=${thePageSize}`;
 
@@ -47,7 +47,17 @@ export class ProductService {
 
     return this.getProducts(searchUrl)
   }
-  
+
+  searhProductsPaginate(thePage: number,
+    thePageSize: number,
+    theKeyword: string): Observable<GetResponseProducts> {
+    // need to build url based on keyword, page and size
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}` +
+                       `&page=${thePage}&size=${thePageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+  }
+
 
 
   private getProducts(searchUrl: string): Observable<Product[]> {
@@ -69,7 +79,7 @@ export class ProductService {
 
 interface GetResponseProducts {
   _embedded: {
-    products: Product[];     
+    products: Product[];
   }
   page: {
     size: number,
@@ -81,12 +91,12 @@ interface GetResponseProducts {
 
 interface GetResponseProductCategory {
   _embedded: {
-    productCategory: ProductCategory[];     
+    productCategory: ProductCategory[];
   }
 }
 
 interface GetResponseProductCategory {
   _embedded: {
-    productCategory: ProductCategory[];     
+    productCategory: ProductCategory[];
   }
 }

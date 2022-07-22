@@ -10,81 +10,93 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductListComponent implements OnInit {
   products!: Product[];
-  currentCateogryId: number =1;
+  currentCateogryId: number = 1;
   previousCateogryId: number = 1;
 
   a!: string | null;
-  currentCategoryName!: string | null; 
+  currentCategoryName!: string | null;
   searchMode: boolean = false;
 
   // new properties for pagination
   thePageNumber: number = 1;
-  thePageSize: number = 10;
+  thePageSize: number = 5;
   theTotalElements: number = 0;
+  numberPageSize!: number; // bug fixlemek için
+
+  previousKeyword!: string;
 
 
-  constructor(private  productListService: ProductService,
+  constructor(private productListService: ProductService,
     private route: ActivatedRoute) { }
   ngOnInit(): void {
     debugger;
 
-    this.route.paramMap.subscribe(() =>{
+    this.route.paramMap.subscribe(() => {
       this.listProducts();
     });
-    
+
   }
 
   listProducts() {
     debugger;
 
-    
+
     this.searchMode = this.route.snapshot.paramMap.has('keyword');
 
-    if(this.searchMode){
+    if (this.searchMode) {
       this.handleSearchProducts();
     }
-    else{
+    else {
       this.handleListProducts();
     }
 
-    
-    
+
+
 
   }
 
- 
-  handleSearchProducts(){
+
+  handleSearchProducts() {
     debugger;
 
-    const theKeyword: string  | null = this.route.snapshot.paramMap.get('keyword');
+    const theKeyword: string | null = this.route.snapshot.paramMap.get('keyword');
+
+    // if we have a different keyword than previous
+    // then set thePageNumbet to 1
+
+    if(this.previousKeyword != theKeyword){
+      this.thePageNumber = 1;
+    }
+
+    this.previousKeyword = theKeyword || '';
+
+
 
     // now search fot he products using keyword
-    this.productListService.searchProducts(theKeyword || '').subscribe(
-      data=>{
-        this.products = data;
-      }
-    )
+    this.productListService.searhProductsPaginate(this.thePageNumber -1,
+                                                 this.thePageSize,
+                                                theKeyword || '').subscribe(this.processResult());
   }
 
 
-  
-  handleListProducts(){
+
+  handleListProducts() {
     debugger;
-    
+
     // check if id parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
 
-    if(hasCategoryId){
+    if (hasCategoryId) {
       // get the id param string. convert string to a number usin the + symbol
-     
-      this.a= this.route.snapshot.paramMap.get('id');
-     
-      this.currentCateogryId  = Number(this.a);
+
+      this.a = this.route.snapshot.paramMap.get('id');
+
+      this.currentCateogryId = Number(this.a);
       this.currentCategoryName = this.route.snapshot.paramMap.get('name'); // <!--Bu kısımı kategori ismini dinamik bir şekilde almak için yazdım-->
-    }else{
+    } else {
       // no category id avaliable default the category id 1
-       this.currentCateogryId = 1;
-       this.currentCategoryName = 'Ana Yemekler'; // <!--Bu kısımı kategori ismini dinamik bir şekilde almak için yazdım-->
+      this.currentCateogryId = 1;
+      this.currentCategoryName = 'Ana Yemekler'; // <!--Bu kısımı kategori ismini dinamik bir şekilde almak için yazdım-->
 
     }
 
@@ -92,38 +104,47 @@ export class ProductListComponent implements OnInit {
     // Check if we have a different category than previous
     // Note : Angular will reuse a component if it is currently being viewed
     //
-    
+
     // if we have a different category id than previous
     // then set thePageNumber back to 1
-    if(this.previousCateogryId != this.currentCateogryId){
+    if (this.previousCateogryId != this.currentCateogryId) {
       this.thePageNumber = 1;
     }
-     
+
     this.previousCateogryId = this.currentCateogryId
 
     console.log(`currentCategoryId=${this.currentCateogryId}, thePageNumber=${this.thePageNumber}`);
 
-    
-    //now get the products for the given category id
-    this.productListService.getProductListPaginate(this.thePageNumber -1 ,
-                                                   this.thePageSize,
-                                                   this.currentCateogryId).subscribe(this.processResult()); // BURADA DATA TUTULUYOR UNTUMA DİKKAT ET
-      
 
-   //this.productListService.getProductList(this.currentCateogryId).subscribe(
-   /*   data =>{
-        this.products = data;
-      }
-    )*/
+    //now get the products for the given category id
+    this.productListService.getProductListPaginate(this.thePageNumber - 1,
+      this.thePageSize,
+      this.currentCateogryId).subscribe(this.processResult()); // BURADA DATA TUTULUYOR UNTUMA DİKKAT ET
+
+
+    //this.productListService.getProductList(this.currentCateogryId).subscribe(
+    /*   data =>{
+         this.products = data;
+       }
+     )*/
   }
 
 
   processResult() {
     return (data: { _embedded: { products: Product[]; }; page: { number: number; size: number; totalElements: number; }; }) => {
       this.products = data._embedded.products;
-      this.thePageNumber = data.page.number +1 ; // dikkat
+      this.thePageNumber = data.page.number + 1; // dikkat
       this.thePageSize = data.page.size;
       this.theTotalElements = data.page.totalElements;
-    }; 
+    };
   }
+
+  updatePageSize(pageSize: string ){
+    this.numberPageSize = +pageSize;
+    this.thePageSize = this.numberPageSize;
+    this.thePageNumber = 1;
+    this.listProducts();
+
+  }
+
 }

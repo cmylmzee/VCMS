@@ -28,30 +28,42 @@
             </div>
 
             <!-- BEGIN FOOTER -->
-            
-             <div class="footer-pagination">
+
+            <div class="footer-pagination">
                 <div class="row">
                     <div class="col-md-6">
-                      
+
                     </div>
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-9 " style="padding-left: 30%;">
+                            <div class="col-md-90 " style="padding-left: 30%;">
                                 <ngb-pagination [(page)]="thePageNumber"
                                                 [pageSize]="thePageSize"
-                                                [collectionSize]="theTotalElements"
+                                                [collectionSize]="theTotalElements" 
+                                                [maxSize]="5"
+                                                [boundaryLinks]="true"
                                                 (pageChange)="listProducts()">
 
 
                                 </ngb-pagination>
                             </div>
+                            <div class="col-md-3 mt-2" style="text-align: right;">
+                                <span class="mr-3">Page Size</span>
+                                <select #paggingsize (change)="updatePageSize(paggingsize.value)">
+                                    <option >2</option>
+                                    <option default>5</option>
+                                    <option>10</option>
+                                    <option>15</option>
+                                    <option>20</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
 
             <!-- END FOOTER -->
-             
+
         </div>
     </div>
 </div>
