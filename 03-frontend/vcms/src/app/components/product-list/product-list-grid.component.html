@@ -17,7 +17,7 @@
 
                         </a>
                         <div class="price">{{ tempProduct.unitPrice | currency:'TRY'}} </div>
-                        <a href="#" class="primary-btn">Sepete ekle</a>
+                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Sepete ekle</button>
                     </div>
                 </div>
 
@@ -50,7 +50,6 @@
                             <div class="col-md-3 mt-2" style="text-align: right;">
                                 <span class="mr-3">Page Size</span>
                                 <select #paggingsize (change)="updatePageSize(paggingsize.value)">
-                                    <option >2</option>
                                     <option default>5</option>
                                     <option>10</option>
                                     <option>15</option>

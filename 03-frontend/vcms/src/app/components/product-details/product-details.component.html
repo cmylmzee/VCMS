@@ -5,7 +5,8 @@
 
         <h3>{{ product.name }}</h3>
         <h5>{{ product.unitPrice | currency:'TRY'}}</h5>
-        <a href="" class="primary-btn">Sepete Ekle</a>
+        <button (click)="addToCart(product)" class="btn btn-primary btn-sm">Sepete ekle</button>
+
 
         <hr>
         <h4>Description</h4>
