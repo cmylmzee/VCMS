@@ -49,9 +49,10 @@
                                     </div>
 
                                 </div>
-                                <button (click)="remove(cartItem)" class="btn btn-danger btn-sm mt-2">Sil</button>
+                                <button style="width: 50px;" (click)="remove(cartItem)" class="btn btn-danger btn-sm mt-2">Sil</button>
                                 <p class="mt-2 text-center">Toplam : {{ cartItem.quantity * cartItem.unitPrice |
                                     currency:'TRY'}}</p>
+                                    <a routerLink="/checkout" class="btn btn-primary btn-sm">Checkout</a>
                             </td>
 
 

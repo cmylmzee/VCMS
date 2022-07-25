@@ -1,4 +1,4 @@
-CREATE USER 'ecommerceapp'@'localhost' IDENTIFIED BY 'ecommerceapp';
+CREATE USER 'vcms'@'localhost' IDENTIFIED BY 'vcms';
 
 GRANT ALL PRIVILEGES ON * . * TO 'ecommerceapp'@'localhost';
 

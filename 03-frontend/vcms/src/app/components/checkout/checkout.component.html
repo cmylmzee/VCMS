@@ -1,0 +1,50 @@
+
+<div class="main-content page-m">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+                <!--  CUSTOMER FORM GROUP  -->
+                <div formGroupName="customer" class="form-area">
+                    <h3>Detaylar</h3>
+
+                    <div class="row">
+                        <div class="col-md-2"><label >Ad</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="firstName" type="text">
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label >Masa Nuamarası</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="tableNumber" type="number" max="100" maxlength="3">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+
+                <!-- ORDER DETAILS -->
+
+                <div class="form-area">
+                    <h3>Sipariş Özeti</h3>
+                    <p>Ürün Adedi: {{ totalQuantity }}</p>
+                    <p>Toplam Fiyat: {{ totalPrice | currency:'TRY'}}</p>
+                </div>
+
+
+                <!--  SUBMIT BUTTON  -->
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-info btn-sm">Sipariş Ver</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
