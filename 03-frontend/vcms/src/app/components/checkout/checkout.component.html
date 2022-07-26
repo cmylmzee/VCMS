@@ -1,4 +1,3 @@
-
 <div class="main-content page-m">
     <div class="section-content section-content-p30">
         <div class="container-fluid">
@@ -8,25 +7,158 @@
                     <h3>Detaylar</h3>
 
                     <div class="row">
-                        <div class="col-md-2"><label >Ad</label></div>
+                        <div class="col-md-2"><label>Ad</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="firstName" type="text">
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><label >Masa Nuamarası</label></div>
+                        <div class="col-md-2"><label>Soyad</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="lastName" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label>Email</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="email" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--  SHIPPING ADDRESS FORM GROUP  -->
+                <div formGroupName="shippingAddress" class="form-area">
+                    <h3>Kargo Adresi</h3>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>Ülke</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select formControlName="country">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label>Şehir</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select formControlName="state">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label>Cadde</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="street" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>Zip Kodu</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="zipCode" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+
+                     <div class="row">
+                        <div class="col-md-2"><label>Masa Nsfarası</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="tableNumber" type="number" max="100" maxlength="3">
                             </div>
                         </div>
-                        
+
                     </div>
+-->
                 </div>
 
+                <!-- ADD CHECK BOX TO COPY SHIPPING TO  -->
+                <div class="input-space my-5">
+                    <label class="au-checkbox">
+                        <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event)">
+                        <span class="au-checkmark"> </span>Kargo adresim ile fatura adresim aynı olsun.
+                    </label>
+                </div>
+
+
+                <!-- BILLING ADDRESS -->
+                <div formGroupName="billingAddress" class="form-area">
+                    <h3>Fatura Adresi</h3>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>Ülke</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select formControlName="country">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label>Şehir</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select formControlName="state">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label>Cadde</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="street" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>Zip Kodu</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="zipCode" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--     <div class="row">
+                        <div class="col-md-2"><label>Masa Numarası</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="lastName" type="number" max="100" maxlength="3">
+                            </div>
+                        </div>
+
+                    </div>
+-->
+                </div>
 
                 <!-- ORDER DETAILS -->
 

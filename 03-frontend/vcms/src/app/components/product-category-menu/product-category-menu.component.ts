@@ -10,7 +10,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductCategoryMenuComponent implements OnInit {
 
   productCategories!: ProductCategory[];
-  
+
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
@@ -18,7 +18,7 @@ export class ProductCategoryMenuComponent implements OnInit {
   }
   listProductCategories() {
     this.productService.getProductCategories().subscribe(
-      data =>  {
+      data => {
         console.log('Product Categories = ' + JSON.stringify(data)); // JSON stringfly datayı alıp json şeklinde görüntülemeye yarıyor
         this.productCategories = data;
       }

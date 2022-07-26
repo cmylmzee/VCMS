@@ -17,27 +17,27 @@ export class ProductDetailsComponent implements OnInit {
 
 
   constructor(private productService: ProductService,
-              private cartService: CartService,
-              private route: ActivatedRoute) { }
+    private cartService: CartService,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(() =>{
+    this.route.paramMap.subscribe(() => {
       this.handleProductDetails();
     })
   }
   handleProductDetails() {
-    
-    this.a= this.route.snapshot.paramMap.get('id');
-    this.theProductId  = Number(this.a);
-    
+
+    this.a = this.route.snapshot.paramMap.get('id');
+    this.theProductId = Number(this.a);
+
     this.productService.getProduct(this.theProductId).subscribe(
-      (      data: any) => {
-          this.product = data;
+      (data: any) => {
+        this.product = data;
       }
     )
   }
 
-  addToCart(theProduct: Product){
+  addToCart(theProduct: Product) {
 
     const theCartItem = new CartItem(theProduct);
 

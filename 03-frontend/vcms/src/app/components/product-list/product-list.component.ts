@@ -67,7 +67,7 @@ export class ProductListComponent implements OnInit {
     // if we have a different keyword than previous
     // then set thePageNumbet to 1
 
-    if(this.previousKeyword != theKeyword){
+    if (this.previousKeyword != theKeyword) {
       this.thePageNumber = 1;
     }
 
@@ -76,9 +76,9 @@ export class ProductListComponent implements OnInit {
 
 
     // now search fot he products using keyword
-    this.productListService.searhProductsPaginate(this.thePageNumber -1,
-                                                 this.thePageSize,
-                                                theKeyword || '').subscribe(this.processResult());
+    this.productListService.searhProductsPaginate(this.thePageNumber - 1,
+      this.thePageSize,
+      theKeyword || '').subscribe(this.processResult());
   }
 
 
@@ -142,7 +142,7 @@ export class ProductListComponent implements OnInit {
     };
   }
 
-  updatePageSize(pageSize: string ){
+  updatePageSize(pageSize: string) {
     this.numberPageSize = +pageSize;
     this.thePageSize = this.numberPageSize;
     this.thePageNumber = 1;
@@ -150,13 +150,13 @@ export class ProductListComponent implements OnInit {
 
   }
 
-  addToCart(theProduct: Product){
+  addToCart(theProduct: Product) {
 
     const theCartItem = new CartItem(theProduct);
 
     this.cartService.addToCart(theCartItem);
   }
 
-  
+
 
 }

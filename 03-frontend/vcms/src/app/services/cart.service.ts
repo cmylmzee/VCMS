@@ -55,7 +55,7 @@ export class CartService {
     } else {
       this.cartItems.push(theCartItem);
     }
-    
+
 
     // compute cart total price and total quantity
 
@@ -66,7 +66,7 @@ export class CartService {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
 
-    for(let currentCartItem of this.cartItems){
+    for (let currentCartItem of this.cartItems) {
       totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
       totalQuantityValue += currentCartItem.quantity;
     }
@@ -77,12 +77,12 @@ export class CartService {
 
     // log cart data just for debugging
     this.logCartData(totalPriceValue, totalQuantityValue);
-    
+
 
   }
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
     console.log("Contents of the cart");
-    for(let tempCartItem of this.cartItems){
+    for (let tempCartItem of this.cartItems) {
       const subTotalPrice = tempCartItem.quantity * tempCartItem.unitPrice;
       console.log(`name : ${tempCartItem.name}, quantity : ${tempCartItem.quantity} unitPrice : ${tempCartItem.unitPrice}`);
     }
@@ -94,13 +94,13 @@ export class CartService {
 
   }
 
-  decrementQuantity(theCartItem: CartItem){
+  decrementQuantity(theCartItem: CartItem) {
     theCartItem.quantity--;
 
-    if(theCartItem.quantity === 0 ){
+    if (theCartItem.quantity === 0) {
       this.remove(theCartItem);
 
-    }else{
+    } else {
       this.computeCartTotals();
     }
   }
@@ -110,7 +110,7 @@ export class CartService {
 
     // if found remove the item from the cart
 
-    if(itemIndex > -1){
+    if (itemIndex > -1) {
       this.cartItems.splice(itemIndex, 1);
 
       this.computeCartTotals();

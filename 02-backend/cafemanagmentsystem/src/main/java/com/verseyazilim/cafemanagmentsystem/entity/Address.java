@@ -32,6 +32,12 @@ public class Address {
     private String zipCode;
 
 
+    // BURAYA SADECE TABLE NUMBER DA YAPABİLİRİM ONUR ABİYE SOR DAHA SORNASINDA BU PROJENİN ÜZERİNE GİDECEĞİM GELİŞTİRECEĞİM O YÜZDEN BOZMAYADABİLİRİM BU KISMI
+
+    // TO-DO !!!!
+    // BURANIN DÜZENLENİŞ ŞEKLİNE GÖRE DİĞER COMMON CLASSES SERVİCES DTO PACKAGE VS. DÜZENLENİCEK
+    //
+
     @OneToOne
     @PrimaryKeyJoinColumn
     private Order order;
