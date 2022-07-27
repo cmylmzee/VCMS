@@ -81,7 +81,7 @@
 
                     </div>
 
-                     <div class="row">
+                    <div class="row">
                         <div class="col-md-2"><label>Masa Nsfarası</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
@@ -90,7 +90,7 @@
                         </div>
 
                     </div>
--->
+
                 </div>
 
                 <!-- ADD CHECK BOX TO COPY SHIPPING TO  -->
@@ -147,17 +147,93 @@
                         </div>
 
                     </div>
-
-                    <!--     <div class="row">
+                    <div class="row">
                         <div class="col-md-2"><label>Masa Numarası</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="lastName" type="number" max="100" maxlength="3">
+                                <input formControlName="tableNumber" type="number" max="100" maxlength="3">
                             </div>
                         </div>
 
                     </div>
--->
+
+                </div>
+
+
+                <!-- CREDIT CARD -->
+                <div formGroupName="creditCard" class="form-area">
+                    <h3>Kredi Kart Bilgileri</h3>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>Kart Tipi</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select formControlName="cardType">
+                                    <option value="">Visa</option>
+                                    <option value="">Mastercard</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label>Kartın üzerindeki isim</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="nameOnCard" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label>Kart Numarası</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="cardNumber" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>CVV</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <input formControlName="securityCode" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>Geçerlilik Tarihi(AY)</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select  formControlName="expirationMonth">
+                                    <option *ngFor="let month of creditCardMonths">
+                                        {{month}}
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><label>Geçerlilik Tarihi(YIL)</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select (change)="handleMonthsAndYears()" formControlName="expirationYear">
+                                    <option *ngFor="let year of creditCardYears">
+                                        {{year}}
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <!-- ORDER DETAILS -->

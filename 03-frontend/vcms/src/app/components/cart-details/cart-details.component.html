@@ -23,12 +23,13 @@
                             </td>
                             <td class="align-middle">
 
-                                <div class="items" >
-                                    <label>Ürün Sayısı : </label> 
+                                <div class="items">
+                                    <label>Ürün Sayısı : </label>
 
                                     <div class="row no-gutters">
                                         <div class="col">
-                                            <button (click)="decrementQuantity(cartItem)" class="btn btn-primary btn-sm">
+                                            <button (click)="decrementQuantity(cartItem)"
+                                                class="btn btn-primary btn-sm">
                                                 <i class="fas fa-minus"></i>
 
                                             </button>
@@ -39,7 +40,8 @@
                                         </div>
 
                                         <div class="col">
-                                            <button (click)="incrementQuantity(cartItem)" class="btn btn-primary btn-sm">
+                                            <button (click)="incrementQuantity(cartItem)"
+                                                class="btn btn-primary btn-sm">
                                                 <i class="fas fa-plus"></i>
 
                                             </button>
@@ -49,16 +51,32 @@
                                     </div>
 
                                 </div>
-                                <button style="width: 50px;" (click)="remove(cartItem)" class="btn btn-danger btn-sm mt-2">Sil</button>
+                                <button style="width: 50px;" (click)="remove(cartItem)"
+                                    class="btn btn-danger btn-sm mt-2">Sil</button>
                                 <p class="mt-2 text-center">Toplam : {{ cartItem.quantity * cartItem.unitPrice |
                                     currency:'TRY'}}</p>
-                                    <a routerLink="/checkout" class="btn btn-primary btn-sm">Checkout</a>
+
+
                             </td>
 
 
+
                         </tr>
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class=" col"><a routerLink="/checkout" style="margin-left: 300"
+                                class="btn btn-primary btn-sm bg-primary">Checkout</a></div>
+                        </div>
+                        
+                        
+
+
+
                     </tbody>
+
                 </table>
+
+
             </div>
             <!-- if cart is empty then display a message -->
             <div *ngIf="cartItems.length ==0" class="alert alert-warning col-md-12 text-center" role="alert">

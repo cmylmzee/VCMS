@@ -7,6 +7,7 @@ import { OrderItem } from 'src/app/common/order-item';
 import { Purchase } from 'src/app/common/purchase';
 import { CartService } from 'src/app/services/cart.service';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { VcmsFormService } from 'src/app/services/vcms-form.service';
 
 @Component({
   selector: 'app-checkout',
@@ -18,9 +19,16 @@ export class CheckoutComponent implements OnInit {
   totalPrice: number = 0;
   totalQuantity: number = 0;
   checkoutFormGroup!: FormGroup;
+
+  creditCardYears: number[] = [];
+  creditCardMonths: number[] = [];
+
+
+
   constructor(private formBuilder: FormBuilder,
     private cartService: CartService,
     private checkoutService: CheckoutService,
+    private vcmsFormService: VcmsFormService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -46,19 +54,40 @@ export class CheckoutComponent implements OnInit {
           state: [''],            // BU KISIMDA EĞERKİ ONUR ABİ E TİCARET SİTESİNE DÖN DERSE DİREKT GERÇEK HAYATA UYUMLU BİR SİTEYE DÖNECEĞİM
           country: [''],
           zipCode: [''],
-          //tableNumber: ['']
-        })
-        /*creditCard: this.formBuilder.group({
+          tableNumber: ['']
+        }),
+        creditCard: this.formBuilder.group({
           cardType: [''],
           nameOnCard: [''],
-          cardNumber: [''],             BU KISIMDA EĞERKİ ONUR ABİ E TİCARET SİTESİNE DÖN DERSE DİREKT GERÇEK HAYATA UYUMLU BİR SİTEYE DÖNECEĞİM
+          cardNumber: [''],             // BU KISIMDA EĞERKİ ONUR ABİ E TİCARET SİTESİNE DÖN DERSE DİREKT GERÇEK HAYATA UYUMLU BİR SİTEYE DÖNECEĞİM
           securityCode: [''],
-          exiprationMonth: [''],
+          expirationMonth: [''],
+          expirationYear: [''],
           tableNumber: ['']
-        })*/
+        })
 
       }
-    )
+    );
+
+
+    const startMonth: number = new Date().getMonth() + 1;
+    console.log("startMonth : " + startMonth);
+
+    this.vcmsFormService.getCreditCardMonths(startMonth).subscribe(
+      data => {
+        console.log("Retrived credit cart months: " + JSON.stringify(data));
+        this.creditCardMonths = data;
+      }
+    );
+
+    this.vcmsFormService.getCreditCardYears().subscribe(
+      data => {
+        console.log(" creditCardYears" + JSON.stringify(data));
+        this.creditCardYears = data;
+      }
+    );
+
+
 
     this.reviewCartDetails();
 
@@ -98,7 +127,7 @@ export class CheckoutComponent implements OnInit {
     purchase.customer = this.checkoutFormGroup.controls['customer'].value;
 
     // populate purcashe - shipping address
-    purchase.shippingAddress = this.checkoutFormGroup.controls['tableNumber'].value;
+    purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
     //  const shippingState: Statement = JSON.parse(JSON.stringify(purcashe.shippingAddress.state));
     //  const shippingCountry: Country = JSON.parse(JSON.stringify(purcashe.shippingAddress.state));
 
@@ -160,6 +189,33 @@ export class CheckoutComponent implements OnInit {
 
 
     }
+  }
+
+  handleMonthsAndYears() {
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
+
+    const currentYear: number = new Date().getFullYear();
+    const selectedYear: number = Number(creditCardFormGroup?.value.expirationYear);
+
+    let startMonth: number;
+
+    if (currentYear === selectedYear) {
+      startMonth = new Date().getMonth() + 1; // AYLAR 0 DAN BAŞLIYOR ONDAN +1 İ VAR
+    }
+    else {
+      startMonth = 1;
+    }
+
+    this.vcmsFormService.getCreditCardMonths(startMonth).subscribe(
+
+      data => {
+        console.log("Retrieved credit card months : " + JSON.stringify(data));
+        this.creditCardMonths = data;
+      }
+
+    )
+
+
   }
 
 
