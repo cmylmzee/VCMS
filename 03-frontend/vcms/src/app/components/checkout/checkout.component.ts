@@ -1,10 +1,12 @@
 import { Statement } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Country } from 'src/app/common/country';
 import { Order } from 'src/app/common/order';
 import { OrderItem } from 'src/app/common/order-item';
 import { Purchase } from 'src/app/common/purchase';
+import { State } from 'src/app/common/state';
 import { CartService } from 'src/app/services/cart.service';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { VcmsFormService } from 'src/app/services/vcms-form.service';
@@ -20,9 +22,19 @@ export class CheckoutComponent implements OnInit {
   totalQuantity: number = 0;
   checkoutFormGroup!: FormGroup;
 
+
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
 
+
+
+  countries: Country[] = [];
+  states: State[] = [];
+
+
+  shippingAddressStates: State[] = [];
+  billingAddressStates: State[] = [];
+  degisken !: string;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -36,9 +48,10 @@ export class CheckoutComponent implements OnInit {
     this.checkoutFormGroup = this.formBuilder.group(
       {
         customer: this.formBuilder.group({
-          firstName: [''],
-          lastName: [''],
-          email: [''],
+          firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+          lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+          email: new FormControl('',
+            [Validators.required, Validators.pattern('^[a-z-9._%+-]+@[a-z-0-9.-]+\\.[a-z]{2-4}$')]),
         }),
         shippingAddress: this.formBuilder.group({
           street: [''],
@@ -80,12 +93,22 @@ export class CheckoutComponent implements OnInit {
       }
     );
 
+    // pOUPLATE CREDID CARD YEARS
+
     this.vcmsFormService.getCreditCardYears().subscribe(
       data => {
         console.log(" creditCardYears" + JSON.stringify(data));
         this.creditCardYears = data;
       }
     );
+
+    // POPULATE COUNTRIES
+
+    this.vcmsFormService.getCountries().subscribe(
+      data => {
+        this.countries = data;
+      }
+    )
 
 
 
@@ -164,6 +187,20 @@ export class CheckoutComponent implements OnInit {
 
 
   }
+
+  get firstName() {
+    return this.checkoutFormGroup.get('customer.firstname');
+  }
+
+  get lastName() {
+    return this.checkoutFormGroup.get('customer.lastName');
+  }
+
+  get email() {
+    return this.checkoutFormGroup.get('customer.email');
+  }
+
+
   resetCart() {
 
     // reset cart data
@@ -185,7 +222,7 @@ export class CheckoutComponent implements OnInit {
 
 
       this.checkoutFormGroup.controls['billingAddress'].setValue(this.checkoutFormGroup.controls['shippingAddress'].value);
-
+      this.billingAddressStates = this.shippingAddressStates;
 
 
     }
@@ -218,5 +255,34 @@ export class CheckoutComponent implements OnInit {
 
   }
 
+
+  getStates(formGroupName: string) {
+
+    const formGroup = this.checkoutFormGroup.get(formGroupName);
+
+    const countryCode = formGroup?.value.country.code;
+    const countryName = formGroup?.value.country.name;
+
+    this.vcmsFormService.getStates(countryCode).subscribe(
+      data => {
+
+        if (formGroupName === 'shippingAddress') {
+          this.shippingAddressStates = data;
+        }
+        else {
+          this.billingAddressStates = data;
+        }
+
+
+        // select first item by default
+
+        formGroup?.get('state')?.setValue(data[0]);
+
+      }
+
+    )
+
+
+  }
 
 }
