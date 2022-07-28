@@ -11,15 +11,17 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="firstName" type="text">
-                                
-                                <div *ngIf="firstName?.valid || firstName?.touched" class="alert alert-danger mt-1">
 
-                                    
-
-
-
+                                <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched )"
+                                    class="alert alert-danger ">
+                                    <div
+                                        *ngIf="firstName?.errors?.['required'] || firstName?.errors?.['notOnlyWhiteSpace'] ">
+                                        Bu alan boş bırakılamaz
+                                    </div>
+                                    <div *ngIf="firstName?.errors?.['minlength']">
+                                        Ad en az iki karakterden oluşmak zorundadır
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
 
@@ -29,6 +31,16 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="lastName" type="text">
+                                <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched )"
+                                    class="alert alert-danger ">
+                                    <div
+                                        *ngIf="lastName?.errors?.['required'] || lastName?.errors?.['notOnlyWhiteSpace'] ">
+                                        Bu alan boş bırakılamaz
+                                    </div>
+                                    <div *ngIf="lastName?.errors?.['minlength']">
+                                        Soyad en az iki karakterden oluşmak zorundadır
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -38,6 +50,16 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="email" type="text">
+                                <div *ngIf="email?.invalid && (email?.dirty || email?.touched )"
+                                    class="alert alert-danger ">
+                                    <div *ngIf="email?.errors?.['required']">
+                                        Bu alan boş bırakılamaz
+                                    </div>
+                                    <div *ngIf="email?.errors?.['pattern']">
+                                        E-posta geçerli bir e-posta adresi biçiminde olmalıdır
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -45,15 +67,16 @@
                 </div>
 
                 <!--  SHIPPING ADDRESS FORM GROUP  -->
-                <div formGroupName="shippingAddress" class="form-area">
-                    <h3>Kargo Adresi</h3>
 
+                <div formGroupName="shippingAddress" class="form-area">
+                    <h3>Masa Bilgileri</h3>
+                    <!--
                     <div class="row">
                         <div class="col-md-2"><label>Ülke</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select (change)="getStates('shippingAddress')" formControlName="country" >
-                                    <option *ngFor="let country of countries" [ngValue]="country" >
+                                <select (change)="getStates('shippingAddress')" formControlName="country">
+                                    <option *ngFor="let country of countries" [ngValue]="country">
                                         {{country.name}}
                                     </option>
                                 </select>
@@ -66,7 +89,7 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="state">
-                                    <option *ngFor="let state of shippingAddressStates"  [ngValue]="state">
+                                    <option *ngFor="let state of shippingAddressStates" [ngValue]="state">
                                         {{state.name}}
                                     </option>
                                 </select>
@@ -93,12 +116,21 @@
                         </div>
 
                     </div>
-
+                    -->
                     <div class="row">
-                        <div class="col-md-2"><label>Masa Nsfarası</label></div>
+                        <div class="col-md-2"><label>Masa Numarası</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="tableNumber" type="number" max="100" maxlength="3">
+                                <input formControlName="tableNumber" type="text">
+                                <div *ngIf="tableNumber?.invalid && (tableNumber?.dirty || tableNumber?.touched )"
+                                    class="alert alert-danger ">
+                                    <div *ngIf="tableNumber?.errors?.['required']">
+                                        Bu alan boş bırakılamaz
+                                    </div>
+                                    <div *ngIf="tableNumber?.errors?.['tableNumberValidator']">
+                                        Masa numarası 0 ile 100 arasında olmalıldır
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -107,15 +139,17 @@
                 </div>
 
                 <!-- ADD CHECK BOX TO COPY SHIPPING TO  -->
+                <!--  BİLLİNG ADDRESS KISMINI DİSABLE ETTİĞİM İÇİN BU KISMA DA GEREK YOK ŞUANLIK
                 <div class="input-space my-5">
                     <label class="au-checkbox">
                         <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event)">
                         <span class="au-checkmark"> </span>Kargo adresim ile fatura adresim aynı olsun.
                     </label>
                 </div>
-
+            -->
 
                 <!-- BILLING ADDRESS -->
+                <!--
                 <div formGroupName="billingAddress" class="form-area">
                     <h3>Fatura Adresi</h3>
 
@@ -123,8 +157,8 @@
                         <div class="col-md-2"><label>Ülke</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select (change)="getStates('billingAddress')" formControlName="country" >
-                                    <option *ngFor="let country of countries" [ngValue]="country" >
+                                <select (change)="getStates('billingAddress')" formControlName="country">
+                                    <option *ngFor="let country of countries" [ngValue]="country">
                                         {{country.name}}
                                     </option>
                                 </select>
@@ -137,7 +171,7 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="state">
-                                    <option *ngFor="let state of billingAddressStates"  [ngValue]="state">
+                                    <option *ngFor="let state of billingAddressStates" [ngValue]="state">
                                         {{state.name}}
                                     </option>
                                 </select>
@@ -175,7 +209,7 @@
                     </div>
 
                 </div>
-
+                 SONRADAN KULLANIRSAM AÇACAĞIM BURAYI ŞUANLIK İPTAL EDİYORUM   -->
 
                 <!-- CREDIT CARD -->
                 <div formGroupName="creditCard" class="form-area">
@@ -226,7 +260,7 @@
                         <div class="col-md-2"><label>Geçerlilik Tarihi(AY)</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select  formControlName="expirationMonth">
+                                <select formControlName="expirationMonth">
                                     <option *ngFor="let month of creditCardMonths">
                                         {{month}}
                                     </option>
@@ -264,7 +298,7 @@
 
                 <!--  SUBMIT BUTTON  -->
 
-                <div class="text-center">
+                <div class="text-center" *ngIf="checkoutFormGroup">
                     <button type="submit" class="btn btn-info btn-sm">Sipariş Ver</button>
                 </div>
 

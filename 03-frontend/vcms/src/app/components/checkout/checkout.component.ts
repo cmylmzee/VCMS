@@ -10,6 +10,7 @@ import { State } from 'src/app/common/state';
 import { CartService } from 'src/app/services/cart.service';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { VcmsFormService } from 'src/app/services/vcms-form.service';
+import { VcmsValidators } from 'src/app/validators/vcms-validators';
 
 @Component({
   selector: 'app-checkout',
@@ -48,19 +49,21 @@ export class CheckoutComponent implements OnInit {
     this.checkoutFormGroup = this.formBuilder.group(
       {
         customer: this.formBuilder.group({
-          firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-          lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+          firstName: new FormControl('', [Validators.required, Validators.minLength(2), VcmsValidators.notOnlyWhiteSpace]),
+          lastName: new FormControl('', [Validators.required, Validators.minLength(2), VcmsValidators.notOnlyWhiteSpace]),
           email: new FormControl('',
-            [Validators.required, Validators.pattern('^[a-z-9._%+-]+@[a-z-0-9.-]+\\.[a-z]{2-4}$')]),
+            [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
         }),
         shippingAddress: this.formBuilder.group({
+          /*
           street: [''],
           city: [''],
           state: [''],            // BU KISIMDA EĞERKİ ONUR ABİ E TİCARET SİTESİNE DÖN DERSE DİREKT GERÇEK HAYATA UYUMLU BİR SİTEYE DÖNECEĞİM
           country: [''],
-          zipCode: [''],
-          tableNumber: ['']
+          zipCode: [''],*/
+          tableNumber: new FormControl('', [Validators.required, VcmsValidators.tableNumberValidator])
         }),
+        /*
         billingAddress: this.formBuilder.group({
           street: [''],
           city: [''],
@@ -68,7 +71,7 @@ export class CheckoutComponent implements OnInit {
           country: [''],
           zipCode: [''],
           tableNumber: ['']
-        }),
+        }),*/
         creditCard: this.formBuilder.group({
           cardType: [''],
           nameOnCard: [''],
@@ -126,10 +129,16 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit() {
+   /* if( this.checkoutFormGroup.invalid){
+      this.checkoutFormGroup.markAllAsTouched();
+    }*/
+
+/*
+
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
       return;
-    }
+    }*/
 
     // set up order
     let order = new Order();
@@ -150,12 +159,16 @@ export class CheckoutComponent implements OnInit {
     purchase.customer = this.checkoutFormGroup.controls['customer'].value;
 
     // populate purcashe - shipping address
-    purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+    //purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
     //  const shippingState: Statement = JSON.parse(JSON.stringify(purcashe.shippingAddress.state));
     //  const shippingCountry: Country = JSON.parse(JSON.stringify(purcashe.shippingAddress.state));
 
     // populate purcashe - billing address
-    purchase.billingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+   // purchase.billingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+
+
+    purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+    const shhippingTableNumber: number = JSON.parse(JSON.stringify(purchase.shippingAddress.tableNumber));
 
     // populate purcashe - order and orderItems
     purchase.order = order;
@@ -189,7 +202,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   get firstName() {
-    return this.checkoutFormGroup.get('customer.firstname');
+    return this.checkoutFormGroup.get('customer.firstName');
   }
 
   get lastName() {
@@ -198,6 +211,10 @@ export class CheckoutComponent implements OnInit {
 
   get email() {
     return this.checkoutFormGroup.get('customer.email');
+  }
+
+  get tableNumber(){
+    return this.checkoutFormGroup.get('shippingAddress.tableNumber')
   }
 
 

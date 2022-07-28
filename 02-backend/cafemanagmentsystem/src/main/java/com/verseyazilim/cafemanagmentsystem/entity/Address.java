@@ -31,6 +31,9 @@ public class Address {
     @Column(name = "zip_code")
     private String zipCode;
 
+    @Column(name="table_number")
+    private String tableNumber;
+
 
     // BURAYA SADECE TABLE NUMBER DA YAPABİLİRİM ONUR ABİYE SOR DAHA SORNASINDA BU PROJENİN ÜZERİNE GİDECEĞİM GELİŞTİRECEĞİM O YÜZDEN BOZMAYADABİLİRİM BU KISMI
 
