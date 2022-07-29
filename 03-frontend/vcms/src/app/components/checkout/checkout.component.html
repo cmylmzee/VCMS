@@ -232,6 +232,16 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="nameOnCard" type="text">
+                                <div *ngIf="CreditCardNameOnCard?.invalid && (CreditCardNameOnCard?.dirty || CreditCardNameOnCard?.touched )"
+                                    class="alert alert-danger ">
+                                    <div
+                                        *ngIf="CreditCardNameOnCard?.errors?.['required'] || CreditCardNameOnCard?.errors?.['notOnlyWhiteSpace'] ">
+                                        Bu alan boş bırakılamaz
+                                    </div>
+                                    <div *ngIf="CreditCardNameOnCard?.errors?.['minlength']">
+                                        Kartın üstündeki isim en az iki karakterden oluşmak zorundadır
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -241,6 +251,16 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="cardNumber" type="text">
+                                <div *ngIf="CreditCardNumber?.invalid && (CreditCardNumber?.dirty || CreditCardNumber?.touched )"
+                                    class="alert alert-danger ">
+                                    <div
+                                        *ngIf="CreditCardNumber?.errors?.['required'] || CreditCardNumber?.errors?.['notOnlyWhiteSpace'] ">
+                                        Bu alan boş bırakılamaz
+                                    </div>
+                                    <div *ngIf="CreditCardNumber?.errors?.['pattern']">
+                                        Kart numarası 16 rakamdan oluşmak zorundadır
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -251,6 +271,16 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="securityCode" type="text">
+                                <div *ngIf="CreditCardSecurityCode?.invalid && (CreditCardSecurityCode?.dirty || CreditCardSecurityCode?.touched )"
+                                    class="alert alert-danger ">
+                                    <div
+                                        *ngIf="CreditCardSecurityCode?.errors?.['required'] || CreditCardSecurityCode?.errors?.['notOnlyWhiteSpace'] ">
+                                        Bu alan boş bırakılamaz
+                                    </div>
+                                    <div *ngIf="CreditCardSecurityCode?.errors?.['pattern']">
+                                        CVV 3 rakamdan oluşmak zorundadır
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

@@ -46,6 +46,8 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.reviewCartDetails();
+
     this.checkoutFormGroup = this.formBuilder.group(
       {
         customer: this.formBuilder.group({
@@ -73,13 +75,12 @@ export class CheckoutComponent implements OnInit {
           tableNumber: ['']
         }),*/
         creditCard: this.formBuilder.group({
-          cardType: [''],
-          nameOnCard: [''],
-          cardNumber: [''],             // BU KISIMDA EĞERKİ ONUR ABİ E TİCARET SİTESİNE DÖN DERSE DİREKT GERÇEK HAYATA UYUMLU BİR SİTEYE DÖNECEĞİM
-          securityCode: [''],
+          cardType: new FormControl('', ),
+          nameOnCard: new FormControl('', [Validators.required, Validators.minLength(2), VcmsValidators.notOnlyWhiteSpace]),
+          cardNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]{16}'), VcmsValidators.notOnlyWhiteSpace]),             // BU KISIMDA EĞERKİ ONUR ABİ E TİCARET SİTESİNE DÖN DERSE DİREKT GERÇEK HAYATA UYUMLU BİR SİTEYE DÖNECEĞİM
+          securityCode: new FormControl('', [Validators.required, Validators.pattern('[0-9]{3}'), VcmsValidators.notOnlyWhiteSpace]),
           expirationMonth: [''],
           expirationYear: [''],
-          tableNumber: ['']
         })
 
       }
@@ -113,10 +114,6 @@ export class CheckoutComponent implements OnInit {
       }
     )
 
-
-
-    this.reviewCartDetails();
-
   }
   reviewCartDetails() {
     this.cartService.totalPrice.subscribe(
@@ -129,17 +126,13 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit() {
-   /* if( this.checkoutFormGroup.invalid){
-      this.checkoutFormGroup.markAllAsTouched();
-    }*/
-
-/*
-
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
       return;
-    }*/
 
+    }
+    
+    debugger;
     // set up order
     let order = new Order();
     order.totalPrice = this.totalPrice;
@@ -164,7 +157,7 @@ export class CheckoutComponent implements OnInit {
     //  const shippingCountry: Country = JSON.parse(JSON.stringify(purcashe.shippingAddress.state));
 
     // populate purcashe - billing address
-   // purchase.billingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+    // purchase.billingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
 
 
     purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
@@ -193,29 +186,23 @@ export class CheckoutComponent implements OnInit {
       }
     );
 
-
-
-
-
-
-
   }
 
-  get firstName() {
-    return this.checkoutFormGroup.get('customer.firstName');
-  }
+  get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
 
-  get lastName() {
-    return this.checkoutFormGroup.get('customer.lastName');
-  }
+  get lastName() { return this.checkoutFormGroup.get('customer.lastName'); }
 
-  get email() {
-    return this.checkoutFormGroup.get('customer.email');
-  }
+  get email() { return this.checkoutFormGroup.get('customer.email'); }
 
-  get tableNumber(){
-    return this.checkoutFormGroup.get('shippingAddress.tableNumber')
-  }
+  get tableNumber() { return this.checkoutFormGroup.get('shippingAddress.tableNumber') }
+
+  get CreditCardType() { return this.checkoutFormGroup.get('creditCard.cardType') }
+  get CreditCardNameOnCard() { return this.checkoutFormGroup.get('creditCard.nameOnCard') }
+
+  get CreditCardNumber() { return this.checkoutFormGroup.get('creditCard.cardNumber') }
+
+  get CreditCardSecurityCode() { return this.checkoutFormGroup.get('creditCard.securityCode') }
+
 
 
   resetCart() {
@@ -301,5 +288,6 @@ export class CheckoutComponent implements OnInit {
 
 
   }
+  
 
 }
